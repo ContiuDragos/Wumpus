@@ -8,7 +8,7 @@ public class Game extends Canvas{
     public static final int height=500;
 
     public Game() {
-            Window window = new Window(width, height, "Wumpus", this);
+            Window_level1 window = new Window_level1(width, height, "Wumpus", this);
             window.putCharacters();
             window.drawMap();
             window.startTheGame();

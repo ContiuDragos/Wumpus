@@ -5,13 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class Window extends JPanel {
+public class Window_level3 extends JPanel {
 
     private Locatie[][] map = new Locatie[10][10];
     private Characters hero = new Hero(0,0);
     private Characters wumpus;
     private Characters hole;
     private Characters treasure;
+    private Game game;
 
     private static final int size=10;
     private static final int GROUND=0, HERO=1, WUMPUS=5, TREASURE= 10, HOLE=2, WIND=3, SMELL=4, SHINE=9;
@@ -20,7 +21,7 @@ public class Window extends JPanel {
     private GridLayout layout = new GridLayout(10,10);
     private JPanel panel = new JPanel();
 
-    public Window(int width, int height, String title, Game game) {
+    public Window_level3(int width, int height, String title, Game game) {
 
         frame = new JFrame(title);
         frame.setPreferredSize(new Dimension(width, height));
@@ -31,51 +32,15 @@ public class Window extends JPanel {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.add(game);
+        this.game=game;
 
         panel.setLayout(layout);
 
         ///desenez mapa jocului
         initiateMap();
 
-        JFrame frameStartTheGame = new JFrame("Regulile jocului");
-        frameStartTheGame.setPreferredSize(new Dimension(width, height));
-        frameStartTheGame.setMinimumSize(new Dimension(width, height));
-        frameStartTheGame.setMaximumSize(new Dimension(width, height));
-
-
-        JPanel panelStartTheGame = new JPanel();
-        panelStartTheGame.setLayout(new GridLayout(3,0));
-        JLabel text1 = new JLabel("Regulile jocului");
-        text1.setBorder(BorderFactory.createEmptyBorder(0, 200, 0,0));
-        JLabel text2 = new JLabel("1. Te poti deplasa cu ajutorul sagetilor si sa tragi cu S");
-        JLabel text3 = new JLabel("2. Dispui de o arma cu un singur glont");
-        JLabel text4 = new JLabel("3. Scopul este sa gasesti comoara, sa nu intalnesti Wumpusul si sa nu cazi in groapa");
-        JLabel text5 = new JLabel("4. Vezi doar unde te afli si pe unde ai mai fost");
-        JLabel text6 = new JLabel("5. Vantul e langa groapa, mirosul langa Wumpus si luminile langa comoara");
-        JButton buttonStartTheGame = new JButton("Ok, am inteles");
-        buttonStartTheGame.setBounds(10,10,10,10);
-        buttonStartTheGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                frameStartTheGame.dispose();
-                frame.setVisible(true);
-            }
-        });
-        panelStartTheGame.add(text1);
-
-        JPanel panelReguli = new JPanel();
-        panelReguli.setLayout(new GridLayout(5,0));
-        panelReguli.add(text2);
-        panelReguli.add(text3);
-        panelReguli.add(text4);
-        panelReguli.add(text5);
-        panelReguli.add(text6);
-
-        panelStartTheGame.add(panelReguli);
-        panelStartTheGame.add(buttonStartTheGame);
-        frameStartTheGame.setContentPane(panelStartTheGame);
-        frameStartTheGame.setVisible(true);
         frame.setContentPane(panel);
+        frame.setVisible(true);
     }
 
     public void clearMap() {
@@ -300,10 +265,10 @@ public class Window extends JPanel {
         int x = hero.getLocatie().getX();
         int y = hero.getLocatie().getY();
 
-        JFrame framePopup = new JFrame("Mesaj de ajutor");
-        framePopup.setPreferredSize(new Dimension(150, 150));
-        framePopup.setMinimumSize(new Dimension(150, 150));
-        framePopup.setMaximumSize(new Dimension(150, 150));
+        JFrame framePopup = new JFrame("Help message");
+        framePopup.setPreferredSize(new Dimension(180, 150));
+        framePopup.setMinimumSize(new Dimension(180, 150));
+        framePopup.setMaximumSize(new Dimension(180, 150));
 
         framePopup.setResizable(false);
         framePopup.setLocationRelativeTo(null);
@@ -322,15 +287,15 @@ public class Window extends JPanel {
         {
             if(map[x-1][y].getValue()==WIND)
             {
-                labelPopup = new JLabel("Esti langa groapa");
+                labelPopup = new JLabel("You are near the pit");
             }
             if(map[x-1][y].getValue()==SMELL)
             {
-                labelPopup = new JLabel("Wumpusul e langa tine");
+                labelPopup = new JLabel("The Wumpus is near you");
             }
             if(map[x-1][y].getValue()==SHINE)
             {
-                labelPopup = new JLabel("Comoara e langa tine");
+                labelPopup = new JLabel("The treasure is near you");
             }
         }
         else
@@ -339,37 +304,37 @@ public class Window extends JPanel {
             {
                 if(map[x+1][y].getValue()==WIND)
                 {
-                    labelPopup = new JLabel("Esti langa groapa");
+                    labelPopup = new JLabel("You are near the pit");
                 }
                 if(map[x+1][y].getValue()==SMELL)
                 {
-                    labelPopup = new JLabel("Wumpusul e langa tine");
+                    labelPopup = new JLabel("The Wumpus is near you");
                 }
                 if(map[x+1][y].getValue()==SHINE)
                 {
-                    labelPopup = new JLabel("Comoara e langa tine");
+                    labelPopup = new JLabel("The treasure is near you");
                 }
             }
             else {
                 if (directie.equals("left")) {
                     if (map[x][y - 1].getValue() == WIND) {
-                        labelPopup = new JLabel("Esti langa groapa");
+                        labelPopup = new JLabel("You are near the pit");
                     }
                     if (map[x][y - 1].getValue() == SMELL) {
-                        labelPopup = new JLabel("Wumpusul e langa tine");
+                        labelPopup = new JLabel("The Wumpus is near you");
                     }
                     if (map[x][y - 1].getValue() == SHINE) {
-                        labelPopup = new JLabel("Comoara e langa tine");
+                        labelPopup = new JLabel("The treasure is near you");
                     }
                 } else {
                     if (map[x][y + 1].getValue() == WIND) {
-                        labelPopup = new JLabel("Esti langa groapa");
+                        labelPopup = new JLabel("You are near the pit");
                     }
                     if (map[x][y + 1].getValue() == SMELL) {
-                        labelPopup = new JLabel("Wumpusul e langa tine");
+                        labelPopup = new JLabel("The Wumpus is near you");
                     }
                     if (map[x][y + 1].getValue() == SHINE) {
-                        labelPopup = new JLabel("Comoara e langa tine");
+                        labelPopup = new JLabel("The treasure is near you");
                     }
                 }
             }
@@ -382,12 +347,14 @@ public class Window extends JPanel {
             framePopup.setVisible(true);
         }
     }
+
     public void postMessegeEndTheGame()
     {
+        boolean win = false;
         JFrame frameEndGame = new JFrame();
-        frameEndGame.setPreferredSize(new Dimension(250, 100));
-        frameEndGame.setMinimumSize(new Dimension(250, 100));
-        frameEndGame.setMaximumSize(new Dimension(250, 100));
+        frameEndGame.setPreferredSize(new Dimension(250, 150));
+        frameEndGame.setMinimumSize(new Dimension(250, 150));
+        frameEndGame.setMaximumSize(new Dimension(250, 150));
 
         frameEndGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameEndGame.setResizable(false);
@@ -397,26 +364,60 @@ public class Window extends JPanel {
         JLabel text = null;
         if(hero.getLocatie().getX()==wumpus.getLocatie().getX())
             if(hero.getLocatie().getY()==wumpus.getLocatie().getY()) {
-                text = new JLabel("Te-a mancat Wumpusul");
+                text = new JLabel("The Wumpus found you");
             }
         if(hero.getLocatie().getX()==treasure.getLocatie().getX())
             if(hero.getLocatie().getY()==treasure.getLocatie().getY()) {
-                text = new JLabel("Felicitari ai gasit comoara");
+                text = new JLabel("Conhratulations! You found the treasure!");
+                win = true;
             }
         if(hero.getLocatie().getX()==hole.getLocatie().getX())
             if(hero.getLocatie().getY()==hole.getLocatie().getY()) {
-                text = new JLabel("Ai fost neatent si ai cazut in groapa");
+                text = new JLabel("Sadly, you felt into the pit");
             }
         panel1.add(text);
         panel1.setLayout(new FlowLayout());
-        JButton b1 = new JButton("Inchide jocul");
+        JButton b1 = new JButton("Close the game");
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.exit(0);
             }
         });
+
+        JButton b2 = new JButton("Go the the next level");
+        b2.addActionListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Window_level4 level4 =new Window_level4(500,500,"Level4",game);
+                level4.putCharacters();
+                level4.drawMap();
+                level4.startTheGame();
+                frameEndGame.dispose();
+                frame.dispose();
+            }
+        });
+        JButton b3 = new JButton("Try again");
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                frameEndGame.dispose();
+                frame.dispose();
+
+                Window_level3 level3 = new Window_level3(500,500,"Level2",game);
+                level3.putCharacters();
+                level3.drawMap();
+                level3.startTheGame();
+            }
+        });
+
         panel1.add(b1);
+        if(win)
+            panel1.add(b2);
+        else
+            panel1.add(b3);
 
         frameEndGame.setContentPane(panel1);
         frameEndGame.setVisible(true);
@@ -428,6 +429,7 @@ public class Window extends JPanel {
         int x = hero.getLocatie().getX();
         int y= hero.getLocatie().getY();
         boolean hit = false;
+        boolean wrongInput = false;
         int i=0;
         if(direction.equals("N") || direction.equals("n"))
         {
@@ -449,59 +451,88 @@ public class Window extends JPanel {
                             if (map[x][i].getValue() == WUMPUS)
                                 hit = true;
                     }
-                    else
-                        if(direction.equals("E") || direction.equals("e")) {
+                    else {
+                        if (direction.equals("E") || direction.equals("e")) {
                             for (i = y; i <= 9 && !hit; i++) {
                                 if (map[x][i].getValue() == WUMPUS)
                                     hit = true;
                             }
-                        }
+                        } else
+                            wrongInput = true;
+                    }
                 }
         }
-        JLabel hitLabel = null;
-        if(hit)
-        {
-            x = wumpus.getLocatie().getX();
-            y = wumpus.getLocatie().getY();
-            wumpus.setLocatie(-1,-1);
-            wumpus.setLife(false);
-            map[x][y].setValue(GROUND);
-            if(x>0)
-                map[x-1][y].setValue(GROUND);
-            if(x<9)
-                map[x+1][y].setValue(GROUND);
-            if(y>0)
-                map[x][y-1].setValue(GROUND);
-            if(y<9)
-                map[x][y+1].setValue(GROUND);
-            redrawElements();
-            hitLabel = new JLabel("Ai nimerit Wumpusul");
+
+        if(wrongInput) {
+            JFrame wrongInputFrame = new JFrame("Wrong input");
+            wrongInputFrame.setPreferredSize(new Dimension(250, 100));
+            wrongInputFrame.setMinimumSize(new Dimension(250, 100));
+            wrongInputFrame.setMaximumSize(new Dimension(250, 100));
+
+            JPanel wrongInputPanel = new JPanel();
+            JLabel wrongInputLabel = new JLabel("Wrong input. Try again!");
+            JButton wrongInputButton = new JButton("Ok");
+            wrongInputButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+
+                    wrongInputFrame.dispose();
+                }
+            });
+
+            wrongInputPanel.add(wrongInputLabel);
+            wrongInputPanel.add(wrongInputButton);
+
+            wrongInputFrame.setContentPane(wrongInputPanel);
+            wrongInputFrame.setLocationRelativeTo(null);
+            wrongInputFrame.setVisible(true);
+
         }
         else
         {
-            hitLabel = new JLabel("Ai ratat Wumpusul");
-        }
-        JFrame hitFrame = new JFrame("Hit");
-        hitFrame.setPreferredSize(new Dimension(250, 100));
-        hitFrame.setMinimumSize(new Dimension(250, 100));
-        hitFrame.setMaximumSize(new Dimension(250, 100));
-
-        JPanel hitPanel = new JPanel();
-        JButton hitButton = new JButton("Ok");
-        hitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-
-                hitFrame.dispose();
+            JLabel hitLabel = null;
+            if (hit) {
+                x = wumpus.getLocatie().getX();
+                y = wumpus.getLocatie().getY();
+                wumpus.setLocatie(-1, -1);
+                wumpus.setLife(false);
+                map[x][y].setValue(GROUND);
+                if (x > 0)
+                    map[x - 1][y].setValue(GROUND);
+                if (x < 9)
+                    map[x + 1][y].setValue(GROUND);
+                if (y > 0)
+                    map[x][y - 1].setValue(GROUND);
+                if (y < 9)
+                    map[x][y + 1].setValue(GROUND);
+                redrawElements();
+                hitLabel = new JLabel("You hit the Wumpus");
+            } else {
+                hitLabel = new JLabel("You missed the Wumpus");
             }
-        });
+            JFrame hitFrame = new JFrame("Hit");
+            hitFrame.setPreferredSize(new Dimension(250, 100));
+            hitFrame.setMinimumSize(new Dimension(250, 100));
+            hitFrame.setMaximumSize(new Dimension(250, 100));
 
-        hitPanel.add(hitLabel);
-        hitPanel.add(hitButton);
+            JPanel hitPanel = new JPanel();
+            JButton hitButton = new JButton("Ok");
+            hitButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
 
-        hitFrame.setContentPane(hitPanel);
-        hitFrame.setVisible(true);
-        hero.setBullets(0);
+                    hitFrame.dispose();
+                }
+            });
+
+            hitPanel.add(hitLabel);
+            hitPanel.add(hitButton);
+
+            hitFrame.setContentPane(hitPanel);
+            hitFrame.setVisible(true);
+            hero.setBullets(0);
+            drawMap();
+        }
     }
     public void startTheGame(){
         frame.addKeyListener(new KeyListener()
@@ -569,9 +600,9 @@ public class Window extends JPanel {
                         if(hero.getBullets()==1) {
                             redrawElements();
                             JFrame shootFrame = new JFrame("Aim&Shoot");
-                            shootFrame.setPreferredSize(new Dimension(250, 100));
-                            shootFrame.setMinimumSize(new Dimension(250, 100));
-                            shootFrame.setMaximumSize(new Dimension(250, 100));
+                            shootFrame.setPreferredSize(new Dimension(250, 150));
+                            shootFrame.setMinimumSize(new Dimension(250, 150));
+                            shootFrame.setMaximumSize(new Dimension(250, 150));
 
                             JPanel shootPanel = new JPanel();
                             JLabel shootLabel = new JLabel("Where to shoot? (N,S,E,W)");
@@ -604,7 +635,7 @@ public class Window extends JPanel {
                             noBulletsFrame.setMaximumSize(new Dimension(250, 100));
 
                             JPanel noBulletsPanel = new JPanel();
-                            JLabel noBulletsLabel = new JLabel("Nu mai ai gloante");
+                            JLabel noBulletsLabel = new JLabel("No more bullets");
                             JButton noBulletsButton = new JButton("Ok");
                             noBulletsButton.addActionListener(new ActionListener() {
                                 @Override
@@ -622,12 +653,13 @@ public class Window extends JPanel {
                         break;
                     default:
                         JFrame errorFrame = new JFrame("Error");
-                        errorFrame.setPreferredSize(new Dimension(250, 100));
-                        errorFrame.setMinimumSize(new Dimension(250, 100));
-                        errorFrame.setMaximumSize(new Dimension(250, 100));
+                        errorFrame.setPreferredSize(new Dimension(310, 100));
+                        errorFrame.setMinimumSize(new Dimension(310, 100));
+                        errorFrame.setMaximumSize(new Dimension(310, 100));
+                        errorFrame.setLocationRelativeTo(null);
 
                         JPanel errorPanel = new JPanel();
-                        JLabel errorLabel = new JLabel("Poti folosi doar sagetile sau S pentru a trage");
+                        JLabel errorLabel = new JLabel("You can use only the arroy keys and S for shooting");
                         JButton errorButton = new JButton("Ok");
                         errorButton.addActionListener(new ActionListener() {
                             @Override

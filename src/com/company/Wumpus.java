@@ -7,11 +7,6 @@ public class Wumpus extends Characters {
         super(x,y,"Wumpus",value);
     }
 
-    public void killWumpus()
-    {
-        life = false;
-    }
-
     public boolean isLife() {
         return life;
     }
